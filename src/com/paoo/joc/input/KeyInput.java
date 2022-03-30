@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-// toate tastele folosite vor avea o clasa
 public class KeyInput implements KeyListener {
 
     public static List<Key> keys = new ArrayList<Key>();
@@ -21,7 +20,6 @@ public class KeyInput implements KeyListener {
             keys.add(this);
         }
 
-        //tasta este tinuta apasat
         public void toggle(boolean pressed) {
             if (pressed != down) {
                 down = pressed;
@@ -31,7 +29,6 @@ public class KeyInput implements KeyListener {
             }
         }
 
-        //tasta a fost apasata
         public void tick() {
             if (absorbs < presses) {
                 absorbs++;
