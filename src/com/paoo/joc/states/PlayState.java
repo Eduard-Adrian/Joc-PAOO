@@ -2,6 +2,7 @@ package com.paoo.joc.states;
 
 
 
+import com.paoo.joc.GamePanel;
 import com.paoo.joc.entity.Player;
 import com.paoo.joc.graphics.Sprite;
 import com.paoo.joc.input.KeyInput;
@@ -18,14 +19,19 @@ public class PlayState extends GameState {
     private Player player;
     private TileManager tm;
 
+    public static Vector2f map;
+
     public PlayState (GameStateManager gsm){
         super(gsm);
-        tm = new TileManager("tile/untitled.xml");
+        map = new Vector2f();
+        Vector2f.setWorldVar(map.x, map.y);
 
-        player = new Player(new Sprite("Entity/b.png",64,64), new Vector2f(100,100), 64);
+        tm = new TileManager("tile/untitled.xml");
+        player = new Player(new Sprite("Entity/b.png",64,64), new Vector2f(0 + (GamePanel.width / 2) - 64 / 2,0 + (GamePanel.height / 2) - 64 / 2), 64);
     }
 
     public void update() {
+        Vector2f.setWorldVar(map.x, map.y);
         player.update();
     }
 
