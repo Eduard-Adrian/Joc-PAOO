@@ -8,7 +8,7 @@ import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
 import com.paoo.joc.tiles.TileManager;
 import com.paoo.joc.util.Vector2f;
-import com.paoo.joc.tiles.TileManager;
+
 
 import java.awt.Graphics2D;
 
@@ -30,6 +30,7 @@ public class PlayState extends GameState {
     }
 
     public void render(Graphics2D g) {
+        tm.render(g);
         player.render(g);
     }
 

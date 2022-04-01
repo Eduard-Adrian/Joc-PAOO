@@ -28,7 +28,7 @@ public class TileManager {
         addTileMap (path, 64, 64);
     }
 
-    private void addTileMap(String path, int blockWidth, int BlockHeight) {
+    private void addTileMap(String path, int blockWidth, int blockHeight) {
         String imagePath;
 
         int width = 0;
@@ -58,8 +58,8 @@ public class TileManager {
             tileCount = Integer.parseInt(eElement.getAttribute("tilecount"));
             tileColumns = Integer.parseInt(eElement.getAttribute("columns"));
 
-            // reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-            // sprite = new Sprite("tile/" + imagePath + ".png", tileWidth, tileHeight);
+
+             sprite = new Sprite("tile/" + imagePath + ".png", tileWidth, tileHeight);
 
             list = doc.getElementsByTagName("layer");
             layers = list.getLength();
@@ -73,7 +73,14 @@ public class TileManager {
                 }
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
-                System.out.println("-------------------------------------------\n" + data[i]);
+                //System.out.println("-------------------------------------------\n" + data[i]);
+
+                if (i >= 1) {
+                    tm.add(new TileMapNorm(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
+                } else {
+                    tm.add(new TileMapObj(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
+                }
+
             }
         } catch (Exception e) {
             System.out.println("ERROR: Could not read tilemap.");
@@ -81,6 +88,8 @@ public class TileManager {
     }
 
     public void render(Graphics2D g) {
-
+        for (int i = 0; i < tm.size(); i++) {
+            tm.get(i).render(g);
+        }
     }
 }
