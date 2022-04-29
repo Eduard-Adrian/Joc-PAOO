@@ -3,7 +3,7 @@ package com.paoo.joc.states;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 public class MenuState extends GameState {
     public MenuState(GameStateManager gsm) {

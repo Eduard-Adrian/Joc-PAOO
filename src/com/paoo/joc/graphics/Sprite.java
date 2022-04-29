@@ -3,7 +3,7 @@ package com.paoo.joc.graphics;
 import com.paoo.joc.util.Vector2f;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -42,12 +42,10 @@ public class Sprite {
         setWidth(width);
         setHeight(height);
     }
-
     public void setWidth(int i) {
         w = i;
         wSprite = SPRITESHEET.getWidth() / w;
     }
-
     public void setHeight(int i) {
         h = i;
         hSprite = SPRITESHEET.getHeight() / h;
@@ -56,7 +54,6 @@ public class Sprite {
     public int getWidth() {
         return w;
     }
-
     public int getHeight() {
         return h;
     }
@@ -108,7 +105,8 @@ public class Sprite {
         x += xOffset;
         y += yOffset;
     }
-/*
+
+/*  de implementat fontul
     public static void drawArray(Graphics2D g, Font f, String word, Vector2f pos, int width, int height, int xOffset, int yOffset) {
         float x = pos.x;
         float y = pos.y;
@@ -123,4 +121,5 @@ public class Sprite {
     }
 */
 
+public int getSpriteSheetWidth() { return SPRITESHEET.getWidth(); }
 }

@@ -71,6 +71,8 @@ public class KeyInput implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_E)     interact.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_SPACE)     attack.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)     escape.toggle(pressed);
+        // m - mute ?
+        // i - inventory ?
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.paoo.joc.graphics.Sprite;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
 import com.paoo.joc.util.AABB;
+import com.paoo.joc.util.TileCollison;
 import com.paoo.joc.util.Vector2f;
 
 import java.awt.Graphics2D;
@@ -13,8 +14,8 @@ import java.awt.image.BufferedImage;
 
 public abstract class Entity {
 
-    private final int UP = 0;
-    private final int DOWN = 2;
+    private final int UP = 2;
+    private final int DOWN = 0;
     private final int RIGHT = 3;
     private final int LEFT = 1;
 
@@ -28,6 +29,7 @@ public abstract class Entity {
     protected boolean down;
     protected boolean right;
     protected boolean left;
+
     protected boolean attack;
     protected int attackSpeed;
     protected int attackDuration;
@@ -42,6 +44,8 @@ public abstract class Entity {
     protected AABB hitBounds;
     protected AABB bounds;
 
+    protected TileCollison tc;
+
 
     public Entity(Sprite sprite, Vector2f origin, int size){
         this.sprite = sprite;
@@ -52,20 +56,20 @@ public abstract class Entity {
         hitBounds = new AABB (new Vector2f(origin.x + (size / 2), origin.y), size, size);
 
         ani = new Animation();
-        setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 10);
+        setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 20);
+
+        tc = new TileCollison(this);
     }
 
     public void setSprite(Sprite sprite){
         this.sprite = sprite;
     }
-
     public void setSize(int i) { size = i; }
     public void setMaxSpeed(float f) { maxSpeed = f; }
     public void setAcc(float f) { acc = f; }
     public void setDeacc(float f) { deacc = f; }
 
     public AABB getBounds() { return bounds; }
-
     public int getSize() { return size; }
     public Animation getAnimation() { return ani; }
 
@@ -99,17 +103,17 @@ public abstract class Entity {
 
     private void setHitBoxDirection() {
         if (up) {
+            hitBounds.setYOffset(-size / 2);
             hitBounds.setXOffset(-size / 2);
-            hitBounds.setYOffset(-size / 2);
         } else if (down) {
-            hitBounds.setXOffset(size / 2);
-            hitBounds.setYOffset(-size / 2);
+            hitBounds.setYOffset(size / 2);
+            hitBounds.setXOffset(-size / 2);
         } else if (left) {
             hitBounds.setXOffset(-size);
             hitBounds.setYOffset(0);
         } else if (right) {
             hitBounds.setXOffset(0);
-            hitBounds.setYOffset(-size);
+            hitBounds.setYOffset(0);
         }
     }
 

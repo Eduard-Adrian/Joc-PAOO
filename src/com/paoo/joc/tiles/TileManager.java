@@ -1,19 +1,18 @@
 package com.paoo.joc.tiles;
 
+
 import com.paoo.joc.graphics.Sprite;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import javax.print.DocFlavor;
-import javax.sound.midi.SysexMessage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.Graphics2D;
 import java.io.File;
-
 import java.util.ArrayList;
+
 
 public class TileManager {
 
@@ -59,7 +58,8 @@ public class TileManager {
             tileColumns = Integer.parseInt(eElement.getAttribute("columns"));
 
 
-             sprite = new Sprite("tile/" + imagePath + ".png", tileWidth, tileHeight);
+            sprite = new Sprite("tile/" + imagePath + ".png", tileWidth, tileHeight);
+            //tileColumns = sprite.getSpriteSheetWidth() / tileWidth;
 
             list = doc.getElementsByTagName("layer");
             layers = list.getLength();
@@ -73,17 +73,18 @@ public class TileManager {
                 }
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
-                //System.out.println("-------------------------------------------\n" + data[i]);
+                //System.out.println("------------------------------------------------------------------------------------\n" + data[i]);
+                //verificare citire xml
 
-                if (i >= 1) {
+                if (i == 1 || i == 0) { //layers 0 si 1 sunt cu tileuri fara proprietati
                     tm.add(new TileMapNorm(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
-                } else {
+                } else { // restul layers au proprietati de coliziuni/blocuri de fundal
                     tm.add(new TileMapObj(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
                 }
 
             }
         } catch (Exception e) {
-            System.out.println("ERROR: Could not read tilemap.");
+            System.out.println("ERROR: Could not read tilemap.          " + e);
         }
     }
 

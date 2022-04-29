@@ -6,14 +6,21 @@ import com.paoo.joc.input.MouseInput;
 import com.paoo.joc.states.PlayState;
 import com.paoo.joc.util.Vector2f;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
 
 public class Player extends Entity{
 
     public Player(Sprite sprite, Vector2f origin, int size) {
         super(sprite, origin, size);
+
         acc = 2f;
         maxSpeed = 3f;
+
+        bounds.setWidth(42);
+        bounds.setHeight(12);
+        bounds.setXOffset(10);
+        bounds.setYOffset(52);
     }
 
     public void move() {
@@ -78,21 +85,28 @@ public class Player extends Entity{
     public void update() {
         super.update();
         move();
-        PlayState.map.x += dx;
-        PlayState.map.y += dy;
-        pos.x += dx;
-        pos.y += dy;
+        if (!tc.collisionTile(dx,0)){
+            PlayState.map.x += dx;
+            pos.x += dx;
+        }
+        if (!tc.collisionTile(0,dy)){
+            PlayState.map.y += dy;
+            pos.y += dy;
+        }
+
     }
 
     @Override
     public void render(Graphics2D g) {
+        g.setColor(Color.blue); //suprafata de coliziune a playerului
+        g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
         g.drawImage(ani.getImage(),(int) (pos.getWorldVar().x), (int) (pos.getWorldVar().y), size, size, null);
     }
 
     public void input(MouseInput mouse, KeyInput key) {
 
-        if(mouse.getB() == 1){
-            System.out.println("Player: " + pos.x + ", " + pos.y);
+        if(mouse.getB() == 1){  //verificare input mouse
+            System.out.println("Player pos: " + pos.x + ", " + pos.y);
         }
 
         if(key.up.down) {

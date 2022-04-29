@@ -26,6 +26,7 @@ public class GameStateManager {
         states = new ArrayList<GameState>();
 
         states.add(new PlayState(this));
+
     }
 
     public void pop(int state) {

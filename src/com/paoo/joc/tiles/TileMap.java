@@ -1,6 +1,6 @@
 package com.paoo.joc.tiles;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 public abstract class TileMap {
     public abstract void render(Graphics2D g);

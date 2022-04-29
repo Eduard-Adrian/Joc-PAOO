@@ -19,11 +19,9 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     public int getX(){
         return mouseX;
     }
-
     public int getY(){
         return mouseY;
     }
-
     public int getB(){
         return mouseB;
     }

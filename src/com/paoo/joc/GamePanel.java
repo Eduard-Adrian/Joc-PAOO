@@ -5,7 +5,9 @@ import com.paoo.joc.input.MouseInput;
 import com.paoo.joc.states.GameStateManager;
 
 import javax.swing.JPanel;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -134,7 +136,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void draw(){
-        Graphics g2 = (Graphics) this.getGraphics();
+        Graphics2D g2 = (Graphics2D) this.getGraphics();
         g2.drawImage(img,0,0, width,height,null);
         g2.dispose();
     }
