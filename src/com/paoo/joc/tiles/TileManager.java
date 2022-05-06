@@ -3,6 +3,7 @@ package com.paoo.joc.tiles;
 
 import com.paoo.joc.graphics.Sprite;
 
+import com.paoo.joc.util.Camera;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,18 +18,25 @@ import java.util.ArrayList;
 public class TileManager {
 
     public static ArrayList<TileMap> tm;
+    public Camera cam;
 
     public TileManager() {
         tm = new ArrayList<TileMap>();
     }
 
-    public TileManager (String path) {
+    public TileManager (String path, Camera cam) {
         tm = new ArrayList<TileMap>();
-        addTileMap (path, 64, 64);
+        addTileMap (path, 64, 64, cam);
     }
 
-    private void addTileMap(String path, int blockWidth, int blockHeight) {
+    public TileManager (String path, int blockWidth, int blockHeight, Camera cam) {
+        tm = new ArrayList<TileMap>();
+        addTileMap (path, blockWidth, blockHeight, cam);
+    }
+
+    private void addTileMap(String path, int blockWidth, int blockHeight, Camera cam) {
         String imagePath;
+        this.cam = cam;
 
         int width = 0;
         int height = 0;
@@ -82,6 +90,8 @@ public class TileManager {
                     tm.add(new TileMapObj(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
                 }
 
+                cam.setLimit(width * blockWidth, height * blockHeight);
+
             }
         } catch (Exception e) {
             System.out.println("ERROR: Could not read tilemap.          " + e);
@@ -89,8 +99,10 @@ public class TileManager {
     }
 
     public void render(Graphics2D g) {
+        if (cam == null)
+            return;
         for (int i = 0; i < tm.size(); i++) {
-            tm.get(i).render(g);
+            tm.get(i).render(g, cam.getBounds());
         }
     }
 }

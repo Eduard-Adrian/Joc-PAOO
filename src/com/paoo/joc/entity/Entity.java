@@ -37,9 +37,15 @@ public abstract class Entity {
     protected float dx;
     protected float dy;
 
+    public boolean xCol = false;
+    public boolean yCol = false;
+
     protected float maxSpeed = 3f;
     protected float acc = 2f;
     protected float deacc = 0.33f;
+
+    private boolean moving = true;
+    private boolean updating = true;
 
     protected AABB hitBounds;
     protected AABB bounds;
@@ -53,7 +59,8 @@ public abstract class Entity {
         this.size = size;
 
         bounds = new AABB(origin, size, size);
-        hitBounds = new AABB (new Vector2f(origin.x + (size / 2), origin.y), size, size);
+        hitBounds = new AABB (origin, size, size);
+        hitBounds.setXOffset(size / 2);
 
         ani = new Animation();
         setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 20);
@@ -68,10 +75,19 @@ public abstract class Entity {
     public void setMaxSpeed(float f) { maxSpeed = f; }
     public void setAcc(float f) { acc = f; }
     public void setDeacc(float f) { deacc = f; }
+    public void setMoving(boolean b) { moving = b; }
+    public void setUpdating(boolean b) { updating = b; }
+
 
     public AABB getBounds() { return bounds; }
+    public float getDeacc() {return deacc;}
+    public float getMaxSpeed() {return  maxSpeed;}
+    public float getDx() {return dx;}
+    public float getDy() {return dy;}
     public int getSize() { return size; }
     public Animation getAnimation() { return ani; }
+    public boolean getMoving() { return moving; }
+    public boolean getUpdating() { return updating; }
 
     public void setAnimation(int i, BufferedImage[] frames, int delay){
         currentAnimation = i;
@@ -82,11 +98,11 @@ public abstract class Entity {
     public void animate(){
         if (up) {
             if ((currentAnimation != UP || ani.getDelay() == -1)) {
-                setAnimation(UP, sprite.getSpriteArray(UP), 5);
+                setAnimation(UP, sprite.getSpriteArray(UP), 10);
             }
         } else if (down) {
             if ((currentAnimation != DOWN || ani.getDelay() == -1)) {
-                setAnimation(DOWN, sprite.getSpriteArray(DOWN), 5);
+                setAnimation(DOWN, sprite.getSpriteArray(DOWN), 10);
             }
         } else if (left) {
             if ((currentAnimation != LEFT || ani.getDelay() == -1)) {
@@ -104,15 +120,15 @@ public abstract class Entity {
     private void setHitBoxDirection() {
         if (up) {
             hitBounds.setYOffset(-size / 2);
-            hitBounds.setXOffset(-size / 2);
+            hitBounds.setXOffset(0);
         } else if (down) {
             hitBounds.setYOffset(size / 2);
-            hitBounds.setXOffset(-size / 2);
+            hitBounds.setXOffset(0);
         } else if (left) {
-            hitBounds.setXOffset(-size);
+            hitBounds.setXOffset(-size / 2);
             hitBounds.setYOffset(0);
         } else if (right) {
-            hitBounds.setXOffset(0);
+            hitBounds.setXOffset(size / 2);
             hitBounds.setYOffset(0);
         }
     }
@@ -125,4 +141,5 @@ public abstract class Entity {
 
     public abstract void render(Graphics2D g);
     public void input(KeyInput key, MouseInput mouse){}
+
 }

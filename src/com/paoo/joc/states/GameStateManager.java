@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class GameStateManager {
 
-    private ArrayList<GameState> states;
+    private GameState states[];
 
     public static Vector2f map;
 
@@ -20,55 +20,73 @@ public class GameStateManager {
     public static final int PAUSE = 2;
     public static final int GAMEOVER = 3;
 
+    public int onTopState = 0;
+
     public GameStateManager() {
         map = new Vector2f(GamePanel.width, GamePanel.height);
         Vector2f.setWorldVar(map.x, map.y);
-        states = new ArrayList<GameState>();
+        states = new GameState[4];
 
-        states.add(new PlayState(this));
+        states[PLAY] = new PlayState(this);
 
     }
 
     public void pop(int state) {
-        states.remove(state);
+        states[state] = null;
     }
 
     public void add(int state){
+        if (states[state] != null)
+            return;
+
         if(state == PLAY){
-            states.add(new PlayState(this));
+            states[PLAY] = new PlayState(this);
         }
         if(state == MENU){
-            states.add(new MenuState(this));
+            states[MENU] = new MenuState(this);
         }
         if(state == PAUSE){
-            states.add(new PauseState(this));
+            states[PAUSE] = new PauseState(this);
         }
         if(state == GAMEOVER){
-            states.add(new GameOverState(this));
+            states[GAMEOVER] = new GameOverState(this);
         }
     }
 
     public void addAndPop(int state){
-        states.remove(0);
+        addAndPop(state, 0);
+    }
+
+    public void addAndPop(int state, int remove) {
+        pop(state);
         add(state);
     }
 
+    public boolean isStateActive (int state) {
+        return states[state] != null;
+    }
+
     public void update() {
-        Vector2f.setWorldVar(map.x, map.y);
-        for (int i = 0; i < states.size(); i++){
-            states.get(i).update();
+        for (int i = 0; i < states.length; i++){
+            if (states[i] != null) {
+                states[i].update();
+            }
         }
     }
 
     public void input(MouseInput mouse, KeyInput key) {
-        for (int i = 0; i < states.size(); i++){
-            states.get(i).input(mouse, key);
+        for (int i = 0; i < states.length; i++){
+            if (states[i] != null) {
+                states[i].input(mouse, key);
+            }
         }
     }
 
     public void render(Graphics2D g) {
-        for (int i = 0; i < states.size(); i++){
-            states.get(i).render(g);
+        for (int i = 0; i < states.length; i++){
+            if (states[i] != null) {
+                states[i].render(g);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 
 public abstract class GameState {
 
-    private GameStateManager gsm;
+    protected GameStateManager gsm;
 
     public GameState(GameStateManager gsm) {
         this.gsm = gsm;

@@ -19,8 +19,8 @@ public class TileCollison {
             int xt = (int) ((e.getBounds().getPos().x + ax) + (c % 2) * e.getBounds().getWidth() + e.getBounds().getXOffset()) / 64;
             int yt = (int) ((e.getBounds().getPos().y + ay) + ((int) (c / 2)) * e.getBounds().getHeight() + e.getBounds().getYOffset()) / 64;
 
-            if (TileMapObj.tmo_blocks.containsKey(String.valueOf(xt) + "," + String.valueOf(yt))) {
-                Block block = TileMapObj.tmo_blocks.get(String.valueOf(xt) + "," + String.valueOf(yt));
+            if (TileMapObj.event_blocks[xt + (yt * TileMapObj.height)] instanceof Block) {
+                Block block = TileMapObj.event_blocks[xt + (yt * TileMapObj.height)];
                 if (block instanceof HoleBlock) {
                     return collisionHole(ax, ay, xt, yt, block);
                 }
@@ -36,8 +36,8 @@ public class TileCollison {
         int nextYt = (int) ((((e.getBounds().getPos().y + ay) + e.getBounds().getYOffset()) / 64) + e.getBounds().getHeight() / 64);
 
         if ((nextXt == yt + 1) || (nextXt == xt + 1) || (nextYt == yt - 1) || (nextXt == xt - 1)) {
-            if (TileMapObj.tmo_blocks.containsKey(String.valueOf(nextXt) + "," + String.valueOf(nextYt))) {
-                Block blockNeighbor = TileMapObj.tmo_blocks.get(String.valueOf(nextXt) + "," + String.valueOf(nextYt));
+            if (TileMapObj.event_blocks[nextXt + (nextYt * TileMapObj.height)] instanceof HoleBlock) {
+                Block blockNeighbor = TileMapObj.event_blocks[nextXt + (nextYt * TileMapObj.height)];
                 return blockNeighbor.update(e.getBounds());
             }
         } else {
