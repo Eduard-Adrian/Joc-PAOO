@@ -1,6 +1,7 @@
 package com.paoo.joc.util;
 
 import com.paoo.joc.entity.Entity;
+import com.paoo.joc.objects.Object;
 import com.paoo.joc.tiles.TileMapObj;
 import com.paoo.joc.tiles.blocks.Block;
 import com.paoo.joc.tiles.blocks.HoleBlock;
@@ -9,6 +10,7 @@ public class TileCollison {
 
     private Entity e;
     private Block block;
+
 
     public TileCollison(Entity e){
         this.e = e;
@@ -47,4 +49,6 @@ public class TileCollison {
         }
         return false;
     }
+
 }
+

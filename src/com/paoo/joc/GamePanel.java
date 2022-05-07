@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable{
         double lastUpdateTime = System.nanoTime();
         double lastRenderTime;
 
-        final double TARGET_FPS = 60;
+        final double TARGET_FPS = 90;
         final double TTBR = 1000000000 / TARGET_FPS; // Total time before render
 
         int frameCount = 0;

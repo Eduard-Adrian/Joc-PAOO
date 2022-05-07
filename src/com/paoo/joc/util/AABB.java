@@ -1,9 +1,6 @@
 package com.paoo.joc.util;
 
 import com.paoo.joc.entity.Entity;
-import com.paoo.joc.tiles.TileMapObj;
-import com.paoo.joc.tiles.blocks.Block;
-import com.paoo.joc.tiles.blocks.HoleBlock;
 
 public class AABB {
 

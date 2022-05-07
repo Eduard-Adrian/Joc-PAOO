@@ -1,11 +1,13 @@
 package com.paoo.joc.states;
 
 import com.paoo.joc.GamePanel;
+import com.paoo.joc.Sound;
 import com.paoo.joc.entity.Enemy;
 import com.paoo.joc.entity.Player;
 import com.paoo.joc.graphics.Sprite;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
+import com.paoo.joc.objects.ObjectsList;
 import com.paoo.joc.tiles.TileManager;
 import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.Camera;
@@ -20,8 +22,12 @@ public class PlayState extends GameState {
     private final Enemy enemy;
     private final TileManager tm;
     private final Camera cam;
+    private final Sound sound;
+
 
     public static Vector2f map;
+    public ObjectsList objList;
+
 
 
     public PlayState (GameStateManager gsm){
@@ -37,13 +43,20 @@ public class PlayState extends GameState {
         player = new Player(new Sprite("Entity/player.png",32,32), new Vector2f(xStart, yStart), 64);
         enemy = new Enemy(new Sprite("Entity/enemy-cop.png", 32,32), new Vector2f(460, 1333), 64);
         cam.target(player);
+        objList = new ObjectsList(player.getBounds());
+        sound = new Sound();
+        sound.playMusic(0);
+
+
     }
 
     public void update() {
         Vector2f.setWorldVar(map.x, map.y);
-        player.update(enemy, player.getUpdating());
+        player.update(enemy, objList, sound , player.getUpdating());
         enemy.update(player, enemy.getUpdating());
         cam.update();
+        objList.update(player.getBounds());
+
     }
 
     public void render(Graphics2D g) {
@@ -51,6 +64,7 @@ public class PlayState extends GameState {
         player.render(g);
         enemy.render(g);
         cam.render(g);
+        objList.render(g);
     }
 
     public void input(MouseInput mouse, KeyInput key) {

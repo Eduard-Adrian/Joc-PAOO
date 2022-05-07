@@ -34,6 +34,8 @@ public abstract class Entity {
     protected int attackSpeed;
     protected int attackDuration;
 
+    protected boolean interact;
+
     protected float dx;
     protected float dy;
 
@@ -60,7 +62,7 @@ public abstract class Entity {
 
         bounds = new AABB(origin, size, size);
         hitBounds = new AABB (origin, size, size);
-        hitBounds.setXOffset(size / 2);
+        hitBounds.setXOffset(size / 3);
 
         ani = new Animation();
         setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 20);
