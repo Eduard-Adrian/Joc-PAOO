@@ -33,6 +33,11 @@ public abstract class Entity {
     protected boolean attack;
     protected int attackSpeed;
     protected int attackDuration;
+    protected int hitPoints = 100;
+    protected boolean invincible = false;
+    protected long invincibleLockCounter = 0;
+    protected static int ATTACK_DELAY = 30; //30 frames
+
 
     protected boolean interact;
 

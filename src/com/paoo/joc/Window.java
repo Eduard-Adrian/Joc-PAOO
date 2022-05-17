@@ -1,8 +1,9 @@
 package com.paoo.joc;
 
-import javax.swing.*;
 
-public class Window extends JFrame{
+import javax.swing.JFrame;
+
+public class Window extends JFrame {
 
     public Window () {
         setTitle("Epic Home Invasion");

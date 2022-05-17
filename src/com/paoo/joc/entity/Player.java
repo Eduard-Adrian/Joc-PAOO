@@ -1,10 +1,10 @@
 package com.paoo.joc.entity;
 
-import com.paoo.joc.Sound;
+import com.paoo.joc.util.Sound;
 import com.paoo.joc.graphics.Sprite;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
-import com.paoo.joc.objects.ObjectsList;
+import com.paoo.joc.entity.objects.ObjectsList;
 import com.paoo.joc.util.Vector2f;
 
 import java.awt.Graphics2D;
@@ -82,40 +82,58 @@ public class Player extends Entity{
 
     }
 
-    public void update(Enemy enemy, ObjectsList objList, Sound sound , boolean updating) {
+    private void attack(EnemyOldman enemyOldman, EnemyPoliceman enemyPoliceman) {
+        invincibleLockCounter++;
+        if (invincibleLockCounter % ATTACK_DELAY == 0) {
+            invincible = false;
+        }
+        if (attack && hitBounds.collides(enemyOldman.getBounds())) {
+            if (!invincible) {
+                System.out.println("Atacat: " + enemyOldman.hitPoints-- + " HP.");
+                invincible = true;
+            }
+        }
+        if (attack && hitBounds.collides(enemyPoliceman.getBounds())) {
+            if (!invincible) {
+                System.out.println("Atacat: " + enemyPoliceman.hitPoints-- + " HP.");
+                invincible = true;
+            }
+        }
+    }
+
+    private void interact(ObjectsList objList, Sound sound) {
+        if (interact && objList.isNear(this.getBounds())) {
+            System.out.println("Interactiune cu obiectul " + (objList.getNrOrdine(this.getBounds()) + 1));
+            switch (objList.getNrSunet(this.getBounds())) {
+                case 1:
+                    sound.playSoundEffect(1);
+                    break;
+                case 2:
+                    sound.playSoundEffect(2);
+                    break;
+                default:
+                    break;
+            }
+            objList.pop(0, objList.getNrOrdine(this.getBounds()));
+
+        }
+    }
+
+    public void update(EnemyOldman enemyOldman, EnemyPoliceman enemyPoliceman , ObjectsList objList, Sound sound , boolean updating) {
         if (updating) {
             super.update();
 
-            if (interact && objList.isNear(this.getBounds())){
-                System.out.println("Interactiune cu obiectul " + (objList.getNrOrdine(this.getBounds()) + 1));
-                switch (objList.getNrSunet(this.getBounds())) {
-                    case 1:
-                        sound.playSoundEffect(1);
-                        break;
-                    case 2:
-                        sound.playSoundEffect(2);
-                        break;
-                    default:
-                        break;
-                }
-                objList.pop(0, objList.getNrOrdine(this.getBounds()));
-
-            }
-
-            if (attack && hitBounds.collides(enemy.getBounds())) {
-                System.out.println("Atacat! ");
-            }
-
+            attack(enemyOldman, enemyPoliceman);
+            interact(objList, sound);
             move(this.getMoving());
+
             if (!tc.collisionTile(dx, 0)) {
-                //PlayState.map.x += dx;
                 pos.x += dx;
                 xCol = false;
             } else {
                 xCol = true;
             }
             if (!tc.collisionTile(0, dy)) {
-                //PlayState.map.y += dy;
                 pos.y += dy;
                 yCol = false;
             } else {
