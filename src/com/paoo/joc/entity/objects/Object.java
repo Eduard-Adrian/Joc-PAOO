@@ -20,12 +20,10 @@ public abstract class Object {
     protected AABB playerBounds;
 
 
-    //pt UI
     public Object() {
 
     }
 
-    //pt itemele de pe harta
     public Object(Vector2f pos, AABB playerBounds, int nrOrdine) {
         this.pos = pos;
         this.playerBounds = playerBounds;
@@ -45,4 +43,5 @@ public abstract class Object {
     }
 
 
+    public String getName() { return name; }
 }

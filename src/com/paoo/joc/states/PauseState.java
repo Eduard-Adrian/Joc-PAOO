@@ -1,20 +1,22 @@
 
 package com.paoo.joc.states;
 
-
+import com.paoo.joc.UI;
+import com.paoo.joc.entity.Player;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
 
-import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 
 public class PauseState extends GameState {
+
+    private final UI ui;
+
+
     public PauseState(GameStateManager gsm) {
         super(gsm);
+        ui = new UI(gsm);
 
     }
 
@@ -25,19 +27,24 @@ public class PauseState extends GameState {
 
     @Override
     public void input(MouseInput mouse, KeyInput key) {
+        key.menu.tick();
+        key.escape.tick();
 
+        if (key.menu.clicked) {
+            if (gsm.isStateActive(GameStateManager.MENU)) {
+                gsm.pop(GameStateManager.MENU);
+                System.out.println("MenuState end.");
+            } else {
+                gsm.pop(GameStateManager.PAUSE);
+                gsm.add(GameStateManager.MENU);
+                System.out.println("MenuState start.");
+            }
+        }
     }
 
     @Override
     public void render(Graphics2D g) {
-            BufferedImage image = null;
-            try {
-                image = ImageIO.read(new File("res\\pause.png"));
-                g.drawImage(image,0,-110,null);
-
-            } catch (IOException e) {
-                System.out.println("ERROR: " + e);
-            }
-        }
+        ui.render(g);
+    }
 
 }

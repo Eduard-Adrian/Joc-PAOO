@@ -25,6 +25,8 @@ public class EnemyPoliceman extends Entity{
         acc = 1f;
         maxSpeed = 1.5f;
         r = 200;
+        hitPoints = 100;
+        ATTACK_DELAY = 45;
 
         bounds.setWidth(42);
         bounds.setHeight(12);
@@ -155,7 +157,8 @@ public class EnemyPoliceman extends Entity{
             invincible = false;
         }
         if (!invincible && sense.colCircleBox(player.getBounds())) {
-            System.out.println("In raza de atac. HP: " + player.hitPoints--);
+            player.hitPoints -= 3;
+            //System.out.println("In raza de atac. HP: " + player.hitPoints);
             invincible = true;
         }
     }
@@ -181,8 +184,8 @@ public class EnemyPoliceman extends Entity{
 
     @Override
     public void render(Graphics2D g){
-        g.setColor(Color.green);
-        g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) (bounds.getWidth()), (int) (bounds.getHeight()));
+        //g.setColor(Color.green);  //suprafata de coliziune
+        //g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) (bounds.getWidth()), (int) (bounds.getHeight()));
 
         g.setColor(Color.blue);
         g.drawOval((int) sense.getPos().getWorldVar().x, (int) sense.getPos().getWorldVar().y, r, r);

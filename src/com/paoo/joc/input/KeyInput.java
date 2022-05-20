@@ -46,6 +46,8 @@ public class KeyInput implements KeyListener {
     public Key interact = new Key();
     public Key attack = new Key();
     public Key escape = new Key();
+    public Key menu = new Key();
+    public Key enter = new Key();
 
     public KeyInput (GamePanel game) {
         game.addKeyListener(this);
@@ -71,7 +73,8 @@ public class KeyInput implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_E)     interact.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_SPACE)     attack.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)     escape.toggle(pressed);
-        // m - mute ?
+        if(e.getKeyCode() == KeyEvent.VK_M)     menu.toggle(pressed);
+        if(e.getKeyCode() == KeyEvent.VK_ENTER)     enter.toggle(pressed);
         // i - inventory ?
     }
 

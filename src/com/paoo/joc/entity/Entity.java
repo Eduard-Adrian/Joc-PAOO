@@ -21,7 +21,7 @@ public abstract class Entity {
 
     protected Animation ani;
     protected Sprite sprite;
-    protected Vector2f pos;
+    public Vector2f pos;
     protected int size;
     protected int currentAnimation;
 
@@ -31,13 +31,10 @@ public abstract class Entity {
     protected boolean left;
 
     protected boolean attack;
-    protected int attackSpeed;
-    protected int attackDuration;
-    protected int hitPoints = 100;
+    protected int hitPoints;
     protected boolean invincible = false;
     protected long invincibleLockCounter = 0;
     protected static int ATTACK_DELAY = 30; //30 frames
-
 
     protected boolean interact;
 
@@ -95,6 +92,8 @@ public abstract class Entity {
     public Animation getAnimation() { return ani; }
     public boolean getMoving() { return moving; }
     public boolean getUpdating() { return updating; }
+    public int getHitPoints() { return hitPoints; }
+
 
     public void setAnimation(int i, BufferedImage[] frames, int delay){
         currentAnimation = i;

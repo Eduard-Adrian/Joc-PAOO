@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 
 public class GameStateManager {
 
-    private GameState states[];
+    private GameState[] states;
 
     public static Vector2f map;
 
@@ -20,13 +20,13 @@ public class GameStateManager {
     public static final int PAUSE = 2;
     public static final int GAMEOVER = 3;
 
-    public int onTopState = 0;
 
     public GameStateManager() {
         map = new Vector2f(GamePanel.width, GamePanel.height);
         Vector2f.setWorldVar(map.x, map.y);
         states = new GameState[4];
 
+        //states[MENU] = new MenuState(this);
         states[PLAY] = new PlayState(this);
 
     }
@@ -42,7 +42,7 @@ public class GameStateManager {
         if(state == PLAY){
             states[PLAY] = new PlayState(this);
         }
-        if(state == MENU){
+        if(state == MENU) {
             states[MENU] = new MenuState(this);
         }
         if(state == PAUSE){
@@ -53,13 +53,9 @@ public class GameStateManager {
         }
     }
 
-    public void addAndPop(int state){
-        addAndPop(state, 0);
-    }
-
-    public void addAndPop(int state, int remove) {
-        pop(state);
-        add(state);
+    public void addAndPop(int stateAdd, int stateRemove) {
+        pop(stateRemove);
+        add(stateAdd);
     }
 
     public boolean isStateActive (int state) {
@@ -67,8 +63,11 @@ public class GameStateManager {
     }
 
     public void update() {
+        //System.out.println();
+        //System.out.print("Currently active states: ");
         for (int i = 0; i < states.length; i++){
             if (states[i] != null) {
+                //System.out.print(i + " ");
                 states[i].update();
             }
         }

@@ -3,6 +3,7 @@ package com.paoo.joc.util;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.File;
 
 
@@ -10,6 +11,13 @@ public class Sound {
 
     Clip clip;
     String[] soundPath = new String[30];
+    static FloatControl fc;
+    static FloatControl fcS;
+
+    private static float volumeM;
+    private static float volumeS;
+    public static boolean musicToggle;
+    public static boolean soundsToggle;
 
     public Sound() {
         soundPath[0] = "res/Audio/BlueBoyAdventure.wav";
@@ -23,6 +31,7 @@ public class Sound {
             AudioInputStream ais = AudioSystem.getAudioInputStream(new File(soundPath[i]));
             clip = AudioSystem.getClip();
             clip.open(ais);
+            fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
         } catch (Exception e) {
             System.out.println("ERROR: " + e);
@@ -52,6 +61,27 @@ public class Sound {
     }
     public void stopMusic() {
         stop();
+    }
+
+    public static void checkMusicVolume() {
+        if (fc != null) {
+            if (!musicToggle) {
+                volumeM = -80f;
+            } else {
+                volumeM = 0f;
+            }
+            fc.setValue(volumeM);
+        }
+    }
+    public static void checkSoundsVolume() {
+        if (fcS != null) {
+            if (!soundsToggle) {
+                volumeS = -80f; //-80 minim
+            } else {
+                volumeS = 0f; //6 maxim
+            }
+            fcS.setValue(volumeS);
+        }
     }
 
 

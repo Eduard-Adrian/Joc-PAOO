@@ -30,7 +30,7 @@ public class HoleBlock extends Block{
 
     public void render (Graphics2D g) {
         super.render(g);    // blocuri fundal
-        g.setColor(Color.green);
-        g.drawRect((int) pos.getWorldVar().x, (int) pos.getWorldVar().y, w, h);
+        //g.setColor(Color.green);
+        //g.drawRect((int) pos.getWorldVar().x, (int) pos.getWorldVar().y, w, h);
     }
 }

@@ -9,8 +9,12 @@ import com.paoo.joc.util.Vector2f;
 
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.util.Objects;
 
 public class Player extends Entity{
+
+    public static int hitPoints = 10;
+    public static int coins = 0;
 
     public Player(Sprite sprite, Vector2f origin, int size) {
         super(sprite, origin, size);
@@ -23,6 +27,8 @@ public class Player extends Entity{
         bounds.setXOffset(10);
         bounds.setYOffset(52);
     }
+
+    public static int getCoins() { return coins; }
 
     private void move(boolean moving) {
         if (moving) {
@@ -82,23 +88,32 @@ public class Player extends Entity{
 
     }
 
-    private void attack(EnemyOldman enemyOldman, EnemyPoliceman enemyPoliceman) {
+    private void attack(EnemyOldman[] enemyOldman, EnemyPoliceman enemyPoliceman) {
         invincibleLockCounter++;
         if (invincibleLockCounter % ATTACK_DELAY == 0) {
             invincible = false;
         }
-        if (attack && hitBounds.collides(enemyOldman.getBounds())) {
-            if (!invincible) {
-                System.out.println("Atacat: " + enemyOldman.hitPoints-- + " HP.");
-                invincible = true;
+        for (int i = 0; i < enemyOldman.length; i++) {
+            if (enemyOldman[i] != null) {
+                if (attack && hitBounds.collides(enemyOldman[i].getBounds())) {
+                    if (!invincible) {
+                        enemyOldman[i].hitPoints -= 20;
+                        System.out.println("Atacat: " + enemyOldman[i].hitPoints + " HP.");
+                        invincible = true;
+                    }
+                }
             }
         }
-        if (attack && hitBounds.collides(enemyPoliceman.getBounds())) {
-            if (!invincible) {
-                System.out.println("Atacat: " + enemyPoliceman.hitPoints-- + " HP.");
-                invincible = true;
+        if (enemyPoliceman != null) {
+            if (attack && hitBounds.collides(enemyPoliceman.getBounds())) {
+                if (!invincible) {
+                    enemyPoliceman.hitPoints -= 10;
+                    System.out.println("Atacat: " + enemyPoliceman.hitPoints + " HP.");
+                    invincible = true;
+                }
             }
         }
+
     }
 
     private void interact(ObjectsList objList, Sound sound) {
@@ -114,12 +129,20 @@ public class Player extends Entity{
                 default:
                     break;
             }
-            objList.pop(0, objList.getNrOrdine(this.getBounds()));
 
+            if (Objects.equals(objList.getName(this.getBounds()), "Money")) {
+                coins += 100;
+            }
+
+            if (Objects.equals(objList.getName(this.getBounds()), "Knife")) {
+                System.out.println("Urmatorul nivel.");
+            }
+
+            objList.pop(0, objList.getNrOrdine(this.getBounds()));
         }
     }
 
-    public void update(EnemyOldman enemyOldman, EnemyPoliceman enemyPoliceman , ObjectsList objList, Sound sound , boolean updating) {
+    public void update(EnemyOldman[] enemyOldman, EnemyPoliceman enemyPoliceman , ObjectsList objList, Sound sound , boolean updating) {
         if (updating) {
             super.update();
 
@@ -143,10 +166,11 @@ public class Player extends Entity{
 
     }
 
+
     @Override
     public void render(Graphics2D g) {
-        g.setColor(Color.blue); //suprafata de coliziune a playerului
-        g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
+        //g.setColor(Color.blue); //suprafata de coliziune a playerului
+        //g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
 
         if (attack) {
             g.setColor(Color.red);
