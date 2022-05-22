@@ -1,18 +1,17 @@
-package com.paoo.joc.states;
 
+package com.paoo.joc.states;
 
 import com.paoo.joc.GamePanel;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
 import com.paoo.joc.util.Vector2f;
 
-import java.awt.Graphics2D;
 
+import java.awt.Graphics2D;
 
 public class GameStateManager {
 
     private GameState[] states;
-
     public static Vector2f map;
 
     public static final int PLAY = 0;
@@ -26,10 +25,10 @@ public class GameStateManager {
         Vector2f.setWorldVar(map.x, map.y);
         states = new GameState[4];
 
-        //states[MENU] = new MenuState(this);
-        states[PLAY] = new PlayState(this);
+        states[MENU] = new MenuState(this);
 
     }
+
 
     public void pop(int state) {
         states[state] = null;
@@ -51,11 +50,6 @@ public class GameStateManager {
         if(state == GAMEOVER){
             states[GAMEOVER] = new GameOverState(this);
         }
-    }
-
-    public void addAndPop(int stateAdd, int stateRemove) {
-        pop(stateRemove);
-        add(stateAdd);
     }
 
     public boolean isStateActive (int state) {

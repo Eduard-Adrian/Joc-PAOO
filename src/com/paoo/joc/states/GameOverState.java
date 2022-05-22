@@ -1,9 +1,11 @@
+
 package com.paoo.joc.states;
 
 import com.paoo.joc.UI;
 import com.paoo.joc.entity.Player;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
+
 
 import java.awt.Graphics2D;
 
@@ -48,4 +50,6 @@ public class GameOverState extends GameState {
     public void render(Graphics2D g) {
         ui.render(g);
     }
+
+
 }

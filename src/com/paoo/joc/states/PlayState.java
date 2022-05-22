@@ -1,3 +1,4 @@
+
 package com.paoo.joc.states;
 
 import com.paoo.joc.GamePanel;
@@ -15,56 +16,68 @@ import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.Camera;
 import com.paoo.joc.util.Vector2f;
 
+
 import java.awt.Graphics2D;
 
-
 public class PlayState extends GameState {
+
+    public static int level = 1;
 
     private Player player;
     private EnemyOldman[] enemyOldman;
     private EnemyPoliceman enemyPoliceman;
-    private final TileManager tm;
-    private final Camera cam;
+    private final TileManager[] tm = new TileManager[3];
+    private Camera cam;
     public static Sound music;
     public static Sound soundEffect;
     private final UI ui;
-
     public static Vector2f map;
     public ObjectsList objList;
 
     public static boolean isInGame = false;
+    private int xStart = 460;
+    private int yStart = 1500;
 
 
-    public PlayState (GameStateManager gsm){
+    public PlayState (GameStateManager gsm) {
         super(gsm);
         isInGame = true;
 
-
         //NIVEL 1
-        int xStart = 460;
-        int yStart = 1500;
-        map = new Vector2f(xStart - ((GamePanel.width / 2f) - 64 / 2f),yStart - ((GamePanel.height / 2f) - 64 / 2f));
+        map = new Vector2f(xStart - ((GamePanel.width / 2f) - 64 / 2f), yStart - ((GamePanel.height / 2f) - 64 / 2f));
         Vector2f.setWorldVar(map.x, map.y);
 
         cam = new Camera(new AABB(new Vector2f(0, 0), GamePanel.width + 64, GamePanel.height + 64));
-        tm = new TileManager("tile/final-nivel1.xml", cam);
+        tm[0] = new TileManager("tile/final-nivel1.xml", cam);
 
-        player = new Player(new Sprite("Entity/player.png",32,32), new Vector2f(xStart, yStart), 64);
+        player = new Player(new Sprite("Entity/player.png", 32, 32), new Vector2f(xStart, yStart), 64);
         cam.target(player);
 
         enemyOldman = new EnemyOldman[5];
-        enemyOldman[0] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32,32), new Vector2f(460, 1333), 64);
-        enemyOldman[1] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32,32), new Vector2f(1205, 1437), 64);
-        enemyOldman[2] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32,32), new Vector2f(1903, 1266), 64);
-        enemyOldman[3] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32,32), new Vector2f(625, 920), 64);
-        enemyOldman[4] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32,32), new Vector2f(1523, 886), 64);
+        enemyOldman[0] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32, 32), new Vector2f(460, 1333), 64);
+        enemyOldman[1] = (EnemyOldman) enemyOldman[0].getClone();
+        enemyOldman[1].setPos(new Vector2f(1205, 1437));
+        enemyOldman[1].setSense(new AABB(new Vector2f(1205 + 64 / 2f - 200 / 2f, 1437 + 64 / 2f - 200 / 2f), 200));
+        enemyOldman[2] = (EnemyOldman) enemyOldman[0].getClone();
+        enemyOldman[2].setPos(new Vector2f(1903, 1266));
+        enemyOldman[2].setSense(new AABB(new Vector2f(1903 + 64 / 2f - 200 / 2f, 1266 + 64 / 2f - 200 / 2f), 200));
+        enemyOldman[3] = (EnemyOldman) enemyOldman[0].getClone();
+        enemyOldman[3].setPos(new Vector2f(625, 920));
+        enemyOldman[3].setSense(new AABB(new Vector2f(625 + 64 / 2f - 200 / 2f, 920 + 64 / 2f - 200 / 2f), 200));
+        enemyOldman[4] = (EnemyOldman) enemyOldman[0].getClone();
+        enemyOldman[4].setPos(new Vector2f(1523, 886));
+        enemyOldman[4].setSense(new AABB(new Vector2f(1523 + 64 / 2f - 200 / 2f, 886 + 64 / 2f - 200 / 2f), 200));
+        //enemyOldman[1] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32, 32), new Vector2f(1205, 1437), 64);
+        // enemyOldman[2] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32, 32), new Vector2f(1903, 1266), 64);
+        // enemyOldman[3] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32, 32), new Vector2f(625, 920), 64);
+        // enemyOldman[4] = new EnemyOldman(new Sprite("Entity/enemy-oldman.png", 32, 32), new Vector2f(1523, 886), 64);
 
         enemyPoliceman = new EnemyPoliceman(new Sprite("Entity/enemy-cop.png", 32, 32), new Vector2f(1000, 1111), 64);
 
         objList = new ObjectsList(player.getBounds());
 
         music = new Sound();
-        //music.playMusic(0);
+        music.playMusic(0);
         soundEffect = new Sound();
 
         ui = new UI(gsm);
@@ -91,10 +104,23 @@ public class PlayState extends GameState {
         if (player.hitPoints <= 0) {
             gsm.add(GameStateManager.GAMEOVER);
         }
+
+        if (level == 2) {
+            tm[0] = null;
+            tm[1] = new TileManager("tile/final-nivel2.xml", cam);
+            Vector2f newPos = new Vector2f(900, 1300);
+            player.setPos(newPos);
+            level = -1;
+        }
+
     }
 
     public void render(Graphics2D g) {
-        tm.render(g);
+        for (int i = 0; i < 3; i++) {
+            if (tm[i] != null) {
+                tm[i].render(g);
+            }
+        }
         for (int i = 0; i < enemyOldman.length; i++) {
             if (enemyOldman[i] != null) {
                 enemyOldman[i].render(g);
@@ -128,7 +154,6 @@ public class PlayState extends GameState {
     public void input(MouseInput mouse, KeyInput key) {
         key.escape.tick();
         key.menu.tick();
-
 
         if (!gsm.isStateActive(GameStateManager.PAUSE) && !gsm.isStateActive(GameStateManager.MENU)) {
             player.input(mouse, key);
@@ -188,6 +213,7 @@ public class PlayState extends GameState {
             }
         }
 
-
     }
+
+
 }

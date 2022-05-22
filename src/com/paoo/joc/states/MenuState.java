@@ -1,30 +1,30 @@
+
 package com.paoo.joc.states;
 
 import com.paoo.joc.UI;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
+import com.paoo.joc.util.Database;
 import com.paoo.joc.util.Sound;
+
 
 import java.awt.Graphics2D;
 
 public class MenuState extends GameState {
 
     private final UI ui;
+
     public static boolean showControlsUI = false;
     public static boolean showSettingsUI = false;
+    private int currentSave = 1;
 
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
-
         ui = new UI(gsm);
 
     }
 
-    @Override
-    public void update() {
-
-    }
 
     @Override
     public void input(MouseInput mouse, KeyInput key) {
@@ -96,6 +96,9 @@ public class MenuState extends GameState {
         //SAVE GAME
         if ((key.enter.clicked || key.interact.clicked) && UI.currentSelection == 1 && PlayState.isInGame) {
             System.out.println("Ati selectat SAVE GAME.");
+            String saveName = "SaveFile" + currentSave;
+            Database.addRow(saveName, PlayState.level, (float)UI.score);
+            currentSave++;
         }
 
         //CONTROLS
@@ -143,4 +146,11 @@ public class MenuState extends GameState {
     public void render(Graphics2D g) {
         ui.render(g);
     }
+
+    @Override
+    public void update() {
+
+    }
+
+
 }

@@ -1,6 +1,8 @@
+
 package com.paoo.joc.input;
 
 import com.paoo.joc.GamePanel;
+
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,9 +14,11 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     private static int mouseY = -1;
     private static int mouseB = -1;
 
+
     public MouseInput(GamePanel game){
         game.addMouseListener(this);
     }
+
 
     public int getX(){
         return mouseX;
@@ -26,10 +30,9 @@ public class MouseInput implements MouseListener, MouseMotionListener {
         return mouseB;
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
 
-    }
+    @Override
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -42,14 +45,10 @@ public class MouseInput implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -62,4 +61,6 @@ public class MouseInput implements MouseListener, MouseMotionListener {
         mouseX = e.getX();
         mouseY = e.getY();
     }
+
+
 }

@@ -1,5 +1,7 @@
+
 package com.paoo.joc.entity;
 
+import com.paoo.joc.states.PlayState;
 import com.paoo.joc.util.Sound;
 import com.paoo.joc.graphics.Sprite;
 import com.paoo.joc.input.KeyInput;
@@ -7,14 +9,16 @@ import com.paoo.joc.input.MouseInput;
 import com.paoo.joc.entity.objects.ObjectsList;
 import com.paoo.joc.util.Vector2f;
 
+
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.util.Objects;
 
 public class Player extends Entity{
 
-    public static int hitPoints = 10;
+    public static int hitPoints = 100;
     public static int coins = 0;
+
 
     public Player(Sprite sprite, Vector2f origin, int size) {
         super(sprite, origin, size);
@@ -28,60 +32,59 @@ public class Player extends Entity{
         bounds.setYOffset(52);
     }
 
+
     public static int getCoins() { return coins; }
 
-    private void move(boolean moving) {
-        if (moving) {
-            if (up) {
-                dy -= acc;
-                if (dy < -maxSpeed) {
-                    dy = -maxSpeed;
-                }
-            } else {
-                if (dy < 0) {
-                    dy += deacc;
-                    if (dy > 0) {
-                        dy = 0;
-                    }
-                }
+    private void move() {
+        if (up) {
+            dy -= acc;
+            if (dy < -maxSpeed) {
+                dy = -maxSpeed;
             }
-            if (down) {
-                dy += acc;
-                if (dy > maxSpeed) {
-                    dy = maxSpeed;
-                }
-            } else {
+        } else {
+            if (dy < 0) {
+                dy += deacc;
                 if (dy > 0) {
-                    dy -= deacc;
-                    if (dy < 0) {
-                        dy = 0;
-                    }
+                    dy = 0;
                 }
             }
-            if (left) {
-                dx -= acc;
-                if (dx < -maxSpeed) {
-                    dx = -maxSpeed;
-                }
-            } else {
-                if (dx < 0) {
-                    dx += deacc;
-                    if (dx > 0) {
-                        dx = 0;
-                    }
+        }
+        if (down) {
+            dy += acc;
+            if (dy > maxSpeed) {
+                dy = maxSpeed;
+            }
+        } else {
+            if (dy > 0) {
+                dy -= deacc;
+                if (dy < 0) {
+                    dy = 0;
                 }
             }
-            if (right) {
-                dx += acc;
-                if (dx > maxSpeed) {
-                    dx = maxSpeed;
-                }
-            } else {
+        }
+        if (left) {
+            dx -= acc;
+            if (dx < -maxSpeed) {
+                dx = -maxSpeed;
+            }
+        } else {
+            if (dx < 0) {
+                dx += deacc;
                 if (dx > 0) {
-                    dx -= deacc;
-                    if (dx < 0) {
-                        dx = 0;
-                    }
+                    dx = 0;
+                }
+            }
+        }
+        if (right) {
+            dx += acc;
+            if (dx > maxSpeed) {
+                dx = maxSpeed;
+            }
+        } else {
+            if (dx > 0) {
+                dx -= deacc;
+                if (dx < 0) {
+                    dx = 0;
                 }
             }
         }
@@ -134,13 +137,15 @@ public class Player extends Entity{
                 coins += 100;
             }
 
-            if (Objects.equals(objList.getName(this.getBounds()), "Knife")) {
+            if (Objects.equals(objList.getName(this.getBounds()), "Door")) {
                 System.out.println("Urmatorul nivel.");
+                PlayState.level = 2;
             }
 
             objList.pop(0, objList.getNrOrdine(this.getBounds()));
         }
     }
+
 
     public void update(EnemyOldman[] enemyOldman, EnemyPoliceman enemyPoliceman , ObjectsList objList, Sound sound , boolean updating) {
         if (updating) {
@@ -148,7 +153,7 @@ public class Player extends Entity{
 
             attack(enemyOldman, enemyPoliceman);
             interact(objList, sound);
-            move(this.getMoving());
+            move();
 
             if (!tc.collisionTile(dx, 0)) {
                 pos.x += dx;
@@ -166,7 +171,6 @@ public class Player extends Entity{
 
     }
 
-
     @Override
     public void render(Graphics2D g) {
         //g.setColor(Color.blue); //suprafata de coliziune a playerului
@@ -180,6 +184,7 @@ public class Player extends Entity{
         g.drawImage(ani.getImage(),(int) (pos.getWorldVar().x), (int) (pos.getWorldVar().y), size, size, null);
     }
 
+    @Override
     public void input(MouseInput mouse, KeyInput key) {
         if(mouse.getB() == 1){
             System.out.println("Player pos: " + pos.x + ", " + pos.y);
@@ -229,4 +234,6 @@ public class Player extends Entity{
         }
 
     }
+
+
 }

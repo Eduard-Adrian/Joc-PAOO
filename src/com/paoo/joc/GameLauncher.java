@@ -1,12 +1,18 @@
+
 package com.paoo.joc;
+
+import com.paoo.joc.util.Database;
 
 public class GameLauncher {
 
     public GameLauncher (){
-        new Window();
+        Window.getInstance();
     }
 
     public static void main (String[] args) {
         new GameLauncher();
+        Database database = new Database();
+        database.connect();
+
     }
 }

@@ -1,10 +1,11 @@
-package com.paoo.joc.entity.objects;
 
+package com.paoo.joc.entity.objects;
 
 import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.Vector2f;
 
-import java.awt.*;
+
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 public abstract class Object {
@@ -33,6 +34,7 @@ public abstract class Object {
 
     public int getNrOrdine() { return nrOrdine; }
     public int getNrSunet() { return nrSunet; }
+    public String getName() { return name; }
     public BufferedImage getImage() { return image; }
 
     public abstract boolean isNear(AABB playerBounds);
@@ -43,5 +45,4 @@ public abstract class Object {
     }
 
 
-    public String getName() { return name; }
 }

@@ -1,7 +1,9 @@
+
 package com.paoo.joc.tiles.blocks;
 
 import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.Vector2f;
+
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -14,12 +16,14 @@ public abstract class Block {
     protected BufferedImage img;
     protected Vector2f pos;
 
+
     public Block(BufferedImage img, Vector2f pos, int w, int h) {
         this.img = img;
         this.pos = pos;
         this.w = w;
         this.h = h;
     }
+
 
     public abstract boolean update(AABB p);
     public abstract boolean isInside(AABB p);

@@ -6,22 +6,22 @@ import com.paoo.joc.util.Vector2f;
 
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
 import java.io.File;
+import java.awt.Graphics2D;
 
-public class ObjGun extends Object{
+public class ObjDoor extends Object{
 
 
-    public ObjGun(Vector2f pos, AABB playerBounds, int nrOrdine) {
+    public ObjDoor(Vector2f pos, AABB playerBounds, int nrOrdine) {
         super(pos, playerBounds, nrOrdine);
-        name = "Gun";
+        name = "Door";
         nrSunet = 2;
-        width = 32;
-        height = 32;
+        width = 64;
+        height = 64;
         try {
-            image = ImageIO.read(new File("res/objects/pistol.png"));
+            image = ImageIO.read(new File("res/objects/door.png"));
         } catch (Exception e) {
-            System.out.println("ERROR: e");
+            System.out.println("ERROR: " + e);
         }
     }
 

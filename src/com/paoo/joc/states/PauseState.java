@@ -2,12 +2,11 @@
 package com.paoo.joc.states;
 
 import com.paoo.joc.UI;
-import com.paoo.joc.entity.Player;
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
 
-import java.awt.Graphics2D;
 
+import java.awt.Graphics2D;
 
 public class PauseState extends GameState {
 
@@ -20,10 +19,6 @@ public class PauseState extends GameState {
 
     }
 
-    @Override
-    public void update() {
-
-    }
 
     @Override
     public void input(MouseInput mouse, KeyInput key) {
@@ -46,5 +41,11 @@ public class PauseState extends GameState {
     public void render(Graphics2D g) {
         ui.render(g);
     }
+
+    @Override
+    public void update() {
+
+    }
+
 
 }

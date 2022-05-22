@@ -1,3 +1,4 @@
+
 package com.paoo.joc.entity;
 
 import com.paoo.joc.graphics.Animation;
@@ -8,9 +9,9 @@ import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.TileCollison;
 import com.paoo.joc.util.Vector2f;
 
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-
 
 public abstract class Entity {
 
@@ -19,9 +20,6 @@ public abstract class Entity {
     private final int RIGHT = 3;
     private final int LEFT = 1;
 
-    protected Animation ani;
-    protected Sprite sprite;
-    public Vector2f pos;
     protected int size;
     protected int currentAnimation;
 
@@ -48,29 +46,33 @@ public abstract class Entity {
     protected float acc = 2f;
     protected float deacc = 0.33f;
 
-    private boolean moving = true;
     private boolean updating = true;
 
     protected AABB hitBounds;
     protected AABB bounds;
 
+    protected Animation ani;
+    protected Sprite sprite;
+    public Vector2f pos;
+
     protected TileCollison tc;
 
 
-    public Entity(Sprite sprite, Vector2f origin, int size){
+    public Entity(Sprite sprite, Vector2f origin, int size) {
         this.sprite = sprite;
         pos = origin;
         this.size = size;
 
         bounds = new AABB(origin, size, size);
         hitBounds = new AABB (origin, size, size);
-        hitBounds.setXOffset(size / 3);
+        hitBounds.setXOffset(size / 3f);
 
         ani = new Animation();
         setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 20);
 
         tc = new TileCollison(this);
     }
+
 
     public void setSprite(Sprite sprite){
         this.sprite = sprite;
@@ -79,7 +81,7 @@ public abstract class Entity {
     public void setMaxSpeed(float f) { maxSpeed = f; }
     public void setAcc(float f) { acc = f; }
     public void setDeacc(float f) { deacc = f; }
-    public void setMoving(boolean b) { moving = b; }
+    public void setPos(Vector2f v) { pos = v; }
     public void setUpdating(boolean b) { updating = b; }
 
 
@@ -89,19 +91,18 @@ public abstract class Entity {
     public float getDx() {return dx;}
     public float getDy() {return dy;}
     public int getSize() { return size; }
-    public Animation getAnimation() { return ani; }
-    public boolean getMoving() { return moving; }
     public boolean getUpdating() { return updating; }
     public int getHitPoints() { return hitPoints; }
+    public Vector2f getPos() { return pos; }
 
 
-    public void setAnimation(int i, BufferedImage[] frames, int delay){
+    public void setAnimation(int i, BufferedImage[] frames, int delay) {
         currentAnimation = i;
         ani.setFrames(frames);
         ani.setDelay(delay);
     }
 
-    public void animate(){
+    public void animate() {
         if (up) {
             if ((currentAnimation != UP || ani.getDelay() == -1)) {
                 setAnimation(UP, sprite.getSpriteArray(UP), 10);
@@ -125,27 +126,28 @@ public abstract class Entity {
 
     private void setHitBoxDirection() {
         if (up) {
-            hitBounds.setYOffset(-size / 2);
+            hitBounds.setYOffset(-size / 2f);
             hitBounds.setXOffset(0);
         } else if (down) {
-            hitBounds.setYOffset(size / 2);
+            hitBounds.setYOffset(size / 2f);
             hitBounds.setXOffset(0);
         } else if (left) {
-            hitBounds.setXOffset(-size / 2);
+            hitBounds.setXOffset(-size / 2f);
             hitBounds.setYOffset(0);
         } else if (right) {
-            hitBounds.setXOffset(size / 2);
+            hitBounds.setXOffset(size / 2f);
             hitBounds.setYOffset(0);
         }
     }
 
-    public void update(){
+
+    public void update() {
         animate();
         setHitBoxDirection();
         ani.update();
     }
 
     public abstract void render(Graphics2D g);
-    public void input(KeyInput key, MouseInput mouse){}
+    public abstract void input(MouseInput mouse, KeyInput key);
 
 }

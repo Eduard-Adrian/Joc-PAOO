@@ -5,12 +5,12 @@ import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.Vector2f;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.io.File;
 
 public class ObjMoney extends Object {
 
-    private float valoare = 1;
+    private float valoare;
 
     public ObjMoney() {
         name = "Money";

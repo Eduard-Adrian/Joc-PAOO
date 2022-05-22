@@ -1,8 +1,10 @@
+
 package com.paoo.joc;
 
 import com.paoo.joc.input.KeyInput;
 import com.paoo.joc.input.MouseInput;
 import com.paoo.joc.states.GameStateManager;
+
 
 import javax.swing.JPanel;
 import java.awt.Dimension;
@@ -26,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     private GameStateManager gsm;
 
+
     public GamePanel(int width, int height){
         this.width = width;
         this.height = height;
@@ -33,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
         setFocusable(true);
         requestFocus();
     }
+
 
     public void addNotify(){
         super.addNotify();
@@ -140,5 +144,6 @@ public class GamePanel extends JPanel implements Runnable{
         g2.drawImage(img,0,0, width,height,null);
         g2.dispose();
     }
+
 
 }

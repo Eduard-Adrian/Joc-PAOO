@@ -1,14 +1,15 @@
+
 package com.paoo.joc.entity.objects;
 
 import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.Vector2f;
 
-import java.awt.*;
 
+import java.awt.Graphics2D;
 
 public class ObjectsList {
 
-    static private int NR_NIVELE = 1;
+    static private final int NR_NIVELE = 2;
     private Object[][] objList = new Object[NR_NIVELE][10];
 
 
@@ -21,10 +22,11 @@ public class ObjectsList {
         objList[0][5] = new ObjMoney(new Vector2f(120,917), playerBounds, 5, 100);
         objList[0][6] = new ObjMoney(new Vector2f(120,817), playerBounds, 6, 100);
         objList[0][7] = new ObjMoney(new Vector2f(2465,821), playerBounds, 7, 100);
+        objList[0][8] = new ObjDoor(new Vector2f(3030,1350), playerBounds, 8);
     }
 
 
-    public void render(Graphics2D g) {
+    public void render (Graphics2D g) {
         for (int i = 0; i < NR_NIVELE; i++) {
             for (int j = 0; j < objList[i].length; j++) {
                 if (objList[i][j] != null) {
@@ -34,8 +36,7 @@ public class ObjectsList {
         }
     }
 
-
-    public boolean isNear(AABB playerBounds) {
+    public boolean isNear (AABB playerBounds) {
         for (int i = 0; i < NR_NIVELE; i++) {
             for (int j = 0; j < objList[i].length; j++) {
                 if (objList[i][j] != null && objList[i][j].isNear(playerBounds)) {
@@ -46,7 +47,13 @@ public class ObjectsList {
         return false;
     }
 
-    public int getNrOrdine(AABB playerBounds) {
+    public void pop (int i, int j) {
+        if (objList[i][j] != null && objList[i][j].nrOrdine == j) {
+            objList[i][j] = null;
+        }
+    }
+
+    public int getNrOrdine (AABB playerBounds) {
         for (int i = 0; i < NR_NIVELE; i++) {
             for (int j = 0; j < objList[i].length; j++) {
                 if (objList[i][j] != null && objList[i][j].isNear(playerBounds)) {  //returnez doar pentru obiectul cu care playerul are contact
@@ -57,7 +64,7 @@ public class ObjectsList {
         return -1;
     }
 
-    public int getNrSunet(AABB playerBounds) {
+    public int getNrSunet (AABB playerBounds) {
         for (int i = 0; i < NR_NIVELE; i++) {
             for (int j = 0; j < objList[i].length; j++) {
                 if (objList[i][j] != null && objList[i][j].isNear(playerBounds)) {  //returnez doar pentru obiectul cu care playerul are contact
@@ -68,7 +75,7 @@ public class ObjectsList {
         return -1;
     }
 
-    public String getName(AABB playerBounds) {
+    public String getName (AABB playerBounds) {
         for (int i = 0; i < NR_NIVELE; i++) {
             for (int j = 0; j < objList[i].length; j++) {
                 if (objList[i][j] != null && objList[i][j].isNear(playerBounds)) {  //returnez doar pentru obiectul cu care playerul are contact
@@ -80,9 +87,4 @@ public class ObjectsList {
     }
 
 
-    public void pop (int i, int j) {
-        if (objList[i][j] != null && objList[i][j].nrOrdine == j) {
-            objList[i][j] = null;
-        }
-    }
 }

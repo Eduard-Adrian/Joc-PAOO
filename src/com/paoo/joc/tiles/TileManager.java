@@ -1,9 +1,11 @@
+
 package com.paoo.joc.tiles;
 
-
 import com.paoo.joc.graphics.Sprite;
-
 import com.paoo.joc.util.Camera;
+import com.paoo.joc.util.InvalidTileException;
+
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,14 +16,14 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.util.ArrayList;
 
-
 public class TileManager {
 
     public static ArrayList<TileMap> tm;
     public Camera cam;
 
+
     public TileManager() {
-        tm = new ArrayList<TileMap>();
+        tm = new ArrayList<>();
     }
 
     public TileManager (String path, Camera cam) {
@@ -33,6 +35,7 @@ public class TileManager {
         tm = new ArrayList<TileMap>();
         addTileMap (path, blockWidth, blockHeight, cam);
     }
+
 
     private void addTileMap(String path, int blockWidth, int blockHeight, Camera cam) {
         String imagePath;
@@ -47,7 +50,7 @@ public class TileManager {
         int layers = 0;
         Sprite sprite;
 
-        String[] data = new String[10];
+        String[] data = new String[20];
 
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -81,8 +84,14 @@ public class TileManager {
                 }
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
-                //System.out.println("------------------------------------------------------------------------------------\n" + data[i]);
+
+
                 //verificare citire xml
+                if (data[i].contains("2684354793 ")) {
+                    throw new InvalidTileException("Invalid tile.");
+                }
+                //System.out.println("------------------------------------------------------------------------------------\n" + data[i]);
+
 
                 if (i == 1 || i == 0) { //layers 0 si 1 sunt cu tileuri fara proprietati
                     tm.add(new TileMapNorm(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
@@ -94,8 +103,9 @@ public class TileManager {
 
             }
         } catch (Exception e) {
-            System.out.println("ERROR: Could not read tilemap.          " + e);
+            System.out.println("ERROR: Could not read tilemap.  " + e);
         }
+
     }
 
     public void render(Graphics2D g) {
@@ -105,4 +115,6 @@ public class TileManager {
             tm.get(i).render(g, cam.getBounds());
         }
     }
+
+
 }

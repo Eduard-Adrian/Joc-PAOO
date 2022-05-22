@@ -1,3 +1,4 @@
+
 package com.paoo.joc.tiles;
 
 import com.paoo.joc.graphics.Sprite;
@@ -6,8 +7,8 @@ import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.Vector2f;
 import com.paoo.joc.tiles.blocks.Block;
 
-import java.awt.Graphics2D;
 
+import java.awt.Graphics2D;
 
 public class TileMapNorm extends TileMap{
 
@@ -16,6 +17,7 @@ public class TileMapNorm extends TileMap{
     private int tileWidth;
     private int tileHeight;
     private int height;
+
 
     public TileMapNorm(String data, Sprite sprite, int width, int height, int tileWidth, int tileHeight, int tileColumns) {
         blocks = new Block[width * height];
@@ -27,10 +29,11 @@ public class TileMapNorm extends TileMap{
         for (int i = 0; i < (width * height); i++) {
             int temp = Integer.parseInt(block[i].replaceAll("\\s+",""));
             if (temp != 0) {
-                blocks[i] = new NormBlock(sprite.getSprite((int) ((temp - 1) % tileColumns), (int) ((temp - 1) / tileColumns) ), new Vector2f((int) (i % width) * tileWidth, (int) (i / height) * tileHeight), tileWidth, tileHeight);
+                blocks[i] = new NormBlock(sprite.getSprite(((temp - 1) % tileColumns), ((temp - 1) / tileColumns) ), new Vector2f( (i % width) * tileWidth, (float) (i / height) * tileHeight), tileWidth, tileHeight);
             }
         }
     }
+
 
     public void render(Graphics2D g, AABB cam) {
         int x = (int) ((cam.getPos().getCamVar().x) / tileWidth);
@@ -43,5 +46,6 @@ public class TileMapNorm extends TileMap{
             }
         }
     }
+
 
 }

@@ -1,16 +1,17 @@
+
 package com.paoo.joc.input;
 
 import com.paoo.joc.GamePanel;
+
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class KeyInput implements KeyListener {
 
-    public static List<Key> keys = new ArrayList<Key>();
+    public static List<Key> keys = new ArrayList<>();
 
     public class Key {
         public int presses, absorbs;
@@ -37,6 +38,7 @@ public class KeyInput implements KeyListener {
                 clicked = false;
             }
         }
+
     }
 
     public Key up = new Key();
@@ -75,13 +77,11 @@ public class KeyInput implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)     escape.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_M)     menu.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_ENTER)     enter.toggle(pressed);
-        // i - inventory ?
+        // i - inventory
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {

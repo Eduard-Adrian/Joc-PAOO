@@ -1,11 +1,12 @@
-package com.paoo.joc.entity.objects;
 
+package com.paoo.joc.entity.objects;
 
 import com.paoo.joc.util.AABB;
 import com.paoo.joc.util.Vector2f;
 
+
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.io.File;
 
 public class ObjKnife extends Object{
@@ -32,7 +33,6 @@ public class ObjKnife extends Object{
         if (playerBounds.getPos().y + playerBounds.getYOffset() > pos.y + this.height) return false;
         return true;
     }
-
 
     public void render(Graphics2D g) {
         super.render(g);
